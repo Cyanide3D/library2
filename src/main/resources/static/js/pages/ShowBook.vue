@@ -10,7 +10,7 @@
                 Информация о книге.
             </v-card-title>
             <v-card-actions>
-                <v-btn @click="onRent" v-bind:class="{'v-btn--disabled': book.rented}" v-if="profile" type="success">Арендовать</v-btn>
+                <v-btn @click="onRent" v-bind:class="{'v-btn--disabled': book.rented}" v-if="profile" type="success">Забронировать</v-btn>
             </v-card-actions>
             <v-divider></v-divider>
             <v-card-text>
@@ -24,7 +24,7 @@
                     <p><b>Описание: {{ book.description }}</b></p>
                     <br>
                     <v-divider></v-divider>
-                    <h3 class="error--text" v-if="book.rented">Книга уже была кем то взята в прокат.</h3>
+                    <h3 class="error--text" v-if="book.rented">Книга уже была кем то забронирована.</h3>
                 </div>
             </v-card-text>
         </v-card>
@@ -36,10 +36,11 @@
         >
             <v-card>
                 <v-card-title class="headline grey lighten-2">
-                    Аренда
+                    Бронирование
                 </v-card-title>
 
                 <v-card-text>
+                    Бронируя книгу вы обязаны будете вернуть её в библиотеку по истечению 30 дней с момента бронирования. У вас будет возможность единожды продлить бронирование книги на 15 дней.
                 </v-card-text>
 
                 <v-divider></v-divider>
@@ -51,7 +52,7 @@
                             text
                             @click="onAcceptRent"
                     >
-                        Арендовать
+                        Забронировать
                     </v-btn>
                     <v-btn
                             color="primary"
@@ -119,11 +120,7 @@
             },
             onAcceptRent: function () {
                 this.rent = false
-                rent.offer({userId: this.profile.id, bookId: this.book.id}).then(response => {
-                    if (!response.ok) {
-                        this.errorWindow = true
-                    }
-                })
+                rent.offer({userId: this.profile.id, bookId: this.book.id}).catch(e => this.errorWindow = true)
             },
             onCancelRent: function () {
                 rent.cancel(this.book.id)

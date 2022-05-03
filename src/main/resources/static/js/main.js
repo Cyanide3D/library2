@@ -325,6 +325,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -338,10 +345,12 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Авторы',
         url: '/manage/author'
       }],
+      roles: ['USER', 'ADMIN'],
       login: false,
       registration: false,
       username: "",
       password: "",
+      role: "",
       errorWindow: false,
       notifyCount: 0
     };
@@ -357,14 +366,17 @@ __webpack_require__.r(__webpack_exports__);
       this.registration = false;
       _api_ss__WEBPACK_IMPORTED_MODULE_1__["default"].reg({
         "username": this.username,
-        "password": this.password
+        "password": this.password,
+        "role": this.role
       }).then(function (response) {
-        if (!response.ok) {
-          _this.errorWindow = true;
+        if (response.ok) {
+          _this.username = '';
+          _this.password = '';
+          _this.login = true;
         }
+      })["catch"](function (e) {
+        return _this.errorWindow = true;
       });
-      this.username = '';
-      this.password = '';
     },
     toProfile: function toProfile() {
       this.$router.push('/profile/' + this.profile.id);
@@ -1318,6 +1330,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -1345,10 +1358,8 @@ __webpack_require__.r(__webpack_exports__);
       _api_rent__WEBPACK_IMPORTED_MODULE_1__["default"].offer({
         userId: this.profile.id,
         bookId: this.book.id
-      }).then(function (response) {
-        if (!response.ok) {
-          _this.errorWindow = true;
-        }
+      })["catch"](function (e) {
+        return _this.errorWindow = true;
       });
     },
     onCancelRent: function onCancelRent() {
@@ -12275,6 +12286,7 @@ var render = function () {
                         attrs: {
                           label: "Пароль",
                           clearable: "",
+                          type: "password",
                           name: "password",
                         },
                         model: {
@@ -12376,13 +12388,24 @@ var render = function () {
                   }),
                   _vm._v(" "),
                   _c("v-text-field", {
-                    attrs: { label: "Пароль", clearable: "" },
+                    attrs: { label: "Пароль", clearable: "", type: "password" },
                     model: {
                       value: _vm.password,
                       callback: function ($$v) {
                         _vm.password = $$v
                       },
                       expression: "password",
+                    },
+                  }),
+                  _vm._v(" "),
+                  _c("v-select", {
+                    attrs: { items: _vm.roles, label: "Роль" },
+                    model: {
+                      value: _vm.role,
+                      callback: function ($$v) {
+                        _vm.role = $$v
+                      },
+                      expression: "role",
                     },
                   }),
                 ],
@@ -13734,7 +13757,7 @@ var render = function () {
                       attrs: { type: "success" },
                       on: { click: _vm.onRent },
                     },
-                    [_vm._v("Арендовать")]
+                    [_vm._v("Забронировать")]
                   )
                 : _vm._e(),
             ],
@@ -13782,7 +13805,7 @@ var render = function () {
                 _vm._v(" "),
                 _vm.book.rented
                   ? _c("h3", { staticClass: "error--text" }, [
-                      _vm._v("Книга уже была кем то взята в прокат."),
+                      _vm._v("Книга уже была кем то забронирована."),
                     ])
                   : _vm._e(),
               ],
@@ -13815,10 +13838,14 @@ var render = function () {
             "v-card",
             [
               _c("v-card-title", { staticClass: "headline grey lighten-2" }, [
-                _vm._v("\n                Аренда\n            "),
+                _vm._v("\n                Бронирование\n            "),
               ]),
               _vm._v(" "),
-              _c("v-card-text"),
+              _c("v-card-text", [
+                _vm._v(
+                  "\n                Бронируя книгу вы обязаны будете вернуть её в библиотеку по истечению 30 дней с момента бронирования. У вас будет возможность единожды продлить бронирование книги на 15 дней.\n            "
+                ),
+              ]),
               _vm._v(" "),
               _c("v-divider"),
               _vm._v(" "),
@@ -13835,7 +13862,7 @@ var render = function () {
                     },
                     [
                       _vm._v(
-                        "\n                    Арендовать\n                "
+                        "\n                    Забронировать\n                "
                       ),
                     ]
                   ),

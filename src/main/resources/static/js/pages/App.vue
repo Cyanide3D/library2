@@ -56,6 +56,7 @@
                         <v-text-field
                                 label="Пароль"
                                 clearable
+                                type="password"
                                 name="password"
                                 v-model="password"
                         ></v-text-field>
@@ -104,8 +105,14 @@
                     <v-text-field
                             label="Пароль"
                             clearable
+                            type="password"
                             v-model="password"
                     ></v-text-field>
+                    <v-select
+                            v-model="role"
+                            :items="roles"
+                            label="Роль"
+                    ></v-select>
                 </v-card-text>
 
                 <v-divider></v-divider>
@@ -172,10 +179,14 @@
                 {title: 'Книги', url: '/manage/book'},
                 {title: 'Авторы', url: '/manage/author'},
             ],
+            roles: [
+                'USER', 'ADMIN'
+            ],
             login: false,
             registration: false,
             username: "",
             password: "",
+            role: "",
             errorWindow: false,
             notifyCount: 0,
         }),
@@ -186,13 +197,13 @@
             },
             onRegistration: function () {
                 this.registration = false
-                ss.reg({"username" : this.username, "password" : this.password}).then(response => {
-                    if (!response.ok) {
-                        this.errorWindow = true
+                ss.reg({"username" : this.username, "password" : this.password, "role" : this.role}).then(response => {
+                    if (response.ok) {
+                        this.username = ''
+                        this.password = ''
+                        this.login = true
                     }
-                })
-                this.username = ''
-                this.password = ''
+                }).catch(e => this.errorWindow = true)
             },
             toProfile: function () {
                 this.$router.push('/profile/' + this.profile.id)
