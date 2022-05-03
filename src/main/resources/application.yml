@@ -1,0 +1,26 @@
+#server:
+#  port: 80
+#spring:
+#  jpa:
+#    generate-ddl: true
+#  main:
+#    allow-bean-definition-overriding: true
+#  #    hibernate:
+#  #      ddl-auto: update
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/practice
+#    username: postgres
+#    password: root
+server:
+  port: 80
+spring:
+  jpa:
+    generate-ddl: true
+  main:
+    allow-bean-definition-overriding: true
+  #    hibernate:
+  #      ddl-auto: update
+  datasource:
+    url: jdbc:postgres://dttghmtijzqzqx:8dea68f7333abcba76f6e77628675b20f1a7c5655948e9359c739d84ed62a236@ec2-99-80-170-190.eu-west-1.compute.amazonaws.com:5432/ddhc1pm3o3aj85
+    username: dttghmtijzqzqx
+    password: 8dea68f7333abcba76f6e77628675b20f1a7c5655948e9359c739d84ed62a236
