@@ -3,6 +3,7 @@ package ru.library.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.library.dto.ExtendRentDto;
 import ru.library.dto.RentDto;
@@ -27,6 +28,7 @@ public class RentController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public void cancelRent(@PathVariable("id") Long bookId) {
         rentService.cancelRent(bookId);

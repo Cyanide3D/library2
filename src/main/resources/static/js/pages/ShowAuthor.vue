@@ -38,7 +38,7 @@
                                 <v-card tile flat hover @click="onClick(book)">
                                     <v-img
                                             :src="book.img"
-                                            height="150px"
+                                            height="250px"
                                     ></v-img>
                                     <p class="pa-3">{{ book.name }}</p>
                                 </v-card>

@@ -3,6 +3,7 @@ package ru.library.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.library.dto.BookDto;
 import ru.library.model.Book;
@@ -28,11 +29,13 @@ public class BookController {
         return service.getAllNonRentedBooks();
     }
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<Book> getAllBooks() {
         return service.getAllBooks();
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Book> save(@RequestBody BookDto book) {
         return ResponseEntity.ok(service.save(book, authorService.getAuthorById(book.getAuthor())));
     }
@@ -53,6 +56,7 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public void deleteBook(@PathVariable("id") Long id) {
         service.delete(id);

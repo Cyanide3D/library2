@@ -844,6 +844,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Main",
@@ -1097,8 +1108,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).then(function (response) {
         if (response.ok) {
           _this.successWindow = true;
-
-          _this.$router.push('/profile/' + _this.profile.id);
+          setTimeout(function () {
+            return _this.$router.go(0);
+          }, 2000);
         }
       });
     },
@@ -1331,6 +1343,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -1361,6 +1374,9 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (e) {
         return _this.errorWindow = true;
       });
+      setTimeout(function () {
+        return _this.$router.push('/profile/' + _this.profile.id);
+      }, 2000);
     },
     onCancelRent: function onCancelRent() {
       _api_rent__WEBPACK_IMPORTED_MODULE_1__["default"].cancel(this.book.id);
@@ -13131,60 +13147,107 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-layout",
-    { staticClass: "pa-4" },
+    "v-container",
     [
+      _c("br"),
+      _c("br"),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
       _c(
-        "v-flex",
-        { attrs: { xs12: "", sm6: "", "offset-sm3": "" } },
+        "v-card",
+        {
+          staticClass: "text-xl-center my-5",
+          attrs: { flat: "", xs12: "", sm6: "", "offset-sm3": "" },
+        },
         [
           _c(
-            "v-card",
+            "v-card-text",
             [
-              _c("v-card-actions"),
+              _c("h2", { attrs: { align: "center" } }, [
+                _vm._v("Добро пожаловать на сайт нашей библиотеки!"),
+              ]),
+              _vm._v(" "),
+              _c("v-divider"),
+              _c("br"),
+              _c("br"),
+              _vm._v(
+                "\n            Здесь вы можете ознакомиться со всеми нашими книгами и так же по необходимости забранировать какую либо из них.\n        "
+              ),
+            ],
+            1
+          ),
+        ],
+        1
+      ),
+      _c("br"),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c(
+        "v-layout",
+        { staticClass: "pa-4" },
+        [
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", sm6: "", "offset-sm3": "" } },
+            [
+              _c("h1", { attrs: { align: "center" } }, [_vm._v("Наши книги:")]),
               _vm._v(" "),
               _c(
-                "v-container",
-                _vm._b(
-                  { attrs: { fluid: "" } },
-                  "v-container",
-                  ((_obj = {}), (_obj["grid-list-xl"] = true), _obj),
-                  false
-                ),
+                "v-card",
                 [
+                  _c("v-card-actions"),
+                  _vm._v(" "),
                   _c(
-                    "v-layout",
-                    { attrs: { row: "", wrap: "" } },
-                    _vm._l(_vm.books, function (book) {
-                      return _c(
-                        "v-flex",
-                        { key: book.id, attrs: { xs4: "" } },
-                        [
-                          _c(
-                            "v-card",
-                            {
-                              attrs: { tile: "", elevation: "1", hover: "" },
-                              on: {
-                                click: function ($event) {
-                                  return _vm.onClick(book)
-                                },
-                              },
-                            },
+                    "v-container",
+                    _vm._b(
+                      { attrs: { fluid: "" } },
+                      "v-container",
+                      ((_obj = {}), (_obj["grid-list-xl"] = true), _obj),
+                      false
+                    ),
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { row: "", wrap: "" } },
+                        _vm._l(_vm.books, function (book) {
+                          return _c(
+                            "v-flex",
+                            { key: book.id, attrs: { xs4: "" } },
                             [
-                              _c("v-img", {
-                                attrs: { src: book.img, height: "150px" },
-                              }),
-                              _vm._v(" "),
-                              _c("p", { staticClass: "pa-3" }, [
-                                _vm._v(_vm._s(book.name)),
-                              ]),
+                              _c(
+                                "v-card",
+                                {
+                                  attrs: {
+                                    tile: "",
+                                    elevation: "1",
+                                    hover: "",
+                                  },
+                                  on: {
+                                    click: function ($event) {
+                                      return _vm.onClick(book)
+                                    },
+                                  },
+                                },
+                                [
+                                  _c("v-img", {
+                                    attrs: { src: book.img, height: "350px" },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("p", { staticClass: "pa-3" }, [
+                                    _vm._v(_vm._s(book.name)),
+                                  ]),
+                                ],
+                                1
+                              ),
                             ],
                             1
-                          ),
-                        ],
+                          )
+                        }),
                         1
-                      )
-                    }),
+                      ),
+                    ],
                     1
                   ),
                 ],
@@ -13679,7 +13742,7 @@ var render = function () {
                                 },
                                 [
                                   _c("v-img", {
-                                    attrs: { src: book.img, height: "150px" },
+                                    attrs: { src: book.img, height: "250px" },
                                   }),
                                   _vm._v(" "),
                                   _c("p", { staticClass: "pa-3" }, [
@@ -13806,6 +13869,14 @@ var render = function () {
                 _vm.book.rented
                   ? _c("h3", { staticClass: "error--text" }, [
                       _vm._v("Книга уже была кем то забронирована."),
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                !_vm.book.rented && !_vm.profile
+                  ? _c("h3", { staticClass: "indigo--text" }, [
+                      _vm._v(
+                        "Дабы забронировать книгу сперва необходимо зарегистрироваться."
+                      ),
                     ])
                   : _vm._e(),
               ],

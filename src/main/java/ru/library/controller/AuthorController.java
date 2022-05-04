@@ -3,6 +3,7 @@ package ru.library.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.library.model.Author;
 import ru.library.service.AuthorService;
@@ -22,11 +23,13 @@ public class AuthorController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Author> save(@RequestBody Author author) {
         return ResponseEntity.ok(authorService.save(author));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("id") Long id) {
         authorService.delete(id);

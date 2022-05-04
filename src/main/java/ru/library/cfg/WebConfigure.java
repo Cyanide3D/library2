@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -14,23 +15,24 @@ import ru.library.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebConfigure extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsServiceImpl service;
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception { // Переопределяем метод настройки SpringSecurity
+    protected void configure(HttpSecurity http) throws Exception {
         http
-                .antMatcher("/**").authorizeRequests() // Указываем, что SpringSecurity будет работать с корня сайта (/)
+                .antMatcher("/**").authorizeRequests()
                 .anyRequest().permitAll().and()
-                .formLogin().and() // Подключаем стандартную форму логина
-                .logout().permitAll().and() // Даём всем доступ к логауту
-                .csrf().disable(); // Отключаем CSRF(нам оно не нужно, много лишней возни с ним)
+                .formLogin().and()
+                .logout().permitAll().and()
+                .csrf().disable();
     }
 
     @Bean
-    public DaoAuthenticationProvider authProvider() { // Создаём бин с провайдером, в котором указываем userService и PasswordEncoder, дабы спринг знал откуда брать пользователей для авторизации
+    public DaoAuthenticationProvider authProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(service);
         authProvider.setPasswordEncoder(encoder());

@@ -156,7 +156,7 @@
                     rent.extend({bookId: this.extendedRentId, days: this.rentDays}).then(response => {
                         if (response.ok) {
                             this.successWindow = true
-                            this.$router.push('/profile/' + this.profile.id)
+                            setTimeout(() => this.$router.go(0), 2000)
                         }
                     })
             },

@@ -25,6 +25,7 @@
                     <br>
                     <v-divider></v-divider>
                     <h3 class="error--text" v-if="book.rented">Книга уже была кем то забронирована.</h3>
+                    <h3 class="indigo--text" v-if="!book.rented && !profile">Дабы забронировать книгу сперва необходимо зарегистрироваться.</h3>
                 </div>
             </v-card-text>
         </v-card>
@@ -121,6 +122,7 @@
             onAcceptRent: function () {
                 this.rent = false
                 rent.offer({userId: this.profile.id, bookId: this.book.id}).catch(e => this.errorWindow = true)
+                setTimeout(() => this.$router.push('/profile/' + this.profile.id), 2000)
             },
             onCancelRent: function () {
                 rent.cancel(this.book.id)
